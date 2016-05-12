@@ -1,0 +1,34 @@
+{% extends 'wxorder/base.html' %}
+{% block title %}登录{% endblock %}
+{% block main_block %}
+        <div class="hd">
+        <h1 class="page_title">帝光科技</h1>
+        <p class="page_desc">您身边的互联网+服务专家</p>
+        </div>
+        <div class="hd">
+        <h1 class="form_title">登录</h1>
+        </div>
+        <div class="bd">
+            <form action="{% url 'wxorder:login' %}" method="post">
+            <div class="weui_cells weui_cells_form">
+                {% csrf_token %}
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">用户名</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input id="id_username" name="username" size="50" {% if u %} value="{{ u }}"{% endif %} class="weui_input" type="text"  placeholder="请输入用户名" required/>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">密码</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input id="id_password" name="password" size="50" {% if p %} value="{{ p }}" {% endif %} class="weui_input" type="password" placeholder="请输入密码" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cells_tips">帝光客户专用版</div>
+            <div class="weui_btn_area">
+                <button type="submit" class="weui_btn weui_btn_primary">进入</button>
+            </div>
+            </form>
+        </div>
+{% endblock %}

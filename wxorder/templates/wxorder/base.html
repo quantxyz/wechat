@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>{% block title %}管理中心{% endblock %} | 帝光客户专用版</title>
+    <link rel="stylesheet" href="{% static 'wxorder/css/weui.css' %}"/>
+    <link rel="stylesheet" href="{% static 'wxorder/css/wxorder.css' %}"/>
+</head>
+<body ontouchstart>
+    <div class="container" id="container">
+        {% block main_block %}{% endblock %}
+    </div>
+</body>
+<script src="{% static 'wxorder/js/zepto.min.js' %}"></script>
+<script src="{% static 'wxorder/js/router.min.js' %}"></script>
+<script src="{% static 'wxorder/js/wxorder.js' %}"></script>
+</html>

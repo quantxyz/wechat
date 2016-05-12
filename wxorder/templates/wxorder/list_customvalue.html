@@ -1,0 +1,101 @@
+{% extends 'wxorder/base.html' %}
+{% block title %}设置中心{% endblock %}
+{% block main_block %}
+<div class="bd">
+    <div class="weui_cells">
+        <a class="weui_cell" href="javascript:;" id="show_add">
+            <div class="weui_cell_bd weui_cell_primary">
+                <h5 class="form_title">已有业务类型</h5>
+            </div>
+            <div class="weui_cell_ft">
+                +
+            </div>
+        </a>
+    </div>
+    <div class="weui_cells weui_cells_access" id="list_type">
+        {% for c in cvlist %}
+        <a class="weui_cell" href="javascript:;" id="show_edit" data-id="{{ c.id }}" data-v="{{ c.value }}">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>{{ c.value }}</p>
+            </div>
+            <div class="weui_cell_ft">
+            </div>
+        </a>
+        {% empty %}
+        <a class="weui_cell" href="javascript:;">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>暂无记录</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<div class="weui_dialog_confirm" id="add_customvalue" style="display: none;">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+        <div class="weui_dialog_hd">
+            <strong class="weui_dialog_title">新增业务类型</strong>
+        </div>
+        <div class="weui_dialog_bd">
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="text" name="a_value" id="a_value" placeholder="请输入业务类型" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" style="display:none;color:red;" id="a_error"></div>
+        <div class="weui_dialog_ft">
+            <a href="javascript:;" class="weui_btn_dialog default" id="cancel">取消</a>
+            <a href="javascript:;" class="weui_btn_dialog primary" id="add_action">增加</a>
+        </div>
+    </div>
+</div>
+<div class="weui_dialog_confirm" id="edit_customvalue" style="display: none;">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+        <div class="weui_dialog_hd">
+            <strong class="weui_dialog_title">更新业务类型</strong>
+        </div>
+        <div class="weui_dialog_bd">
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input type="hidden" id="e_id">
+                        <input type="hidden" id="e_copyvalue">
+                        <input class="weui_input" type="text" id="e_value" placeholder="请输入业务类型" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" style="display:none;color:red;" id="e_error"></div>
+        <div class="weui_dialog_ft">
+            <a href="javascript:;" class="weui_btn_dialog default" id="cancel">取消</a>
+            <a href="javascript:;" class="weui_btn_dialog primary" id="edit_action">更新</a>
+        </div>
+    </div>
+</div>
+<!--BEGIN toast-->
+<div id="toast_success" style="display: none;">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <i class="weui_icon_toast"></i>
+        <p class="weui_toast_content">操作成功</p>
+    </div>
+</div>
+<div id="toast_fail" style="display: none;">
+    <div class="weui_mask_transparent"></div>
+    <style>
+        .weui_icon_msg:before {
+            font-size: 55px;
+            margin-top:15px;
+        }
+    </style>
+    <div class="weui_toast">
+        <i class="weui_icon_msg weui_icon_warn"></i>
+        <p class="weui_toast_content">操作失败，请稍后重试</p>
+    </div>
+</div>
+<!--end toast-->
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'wxorder/base.html' %}
+{% block title %}新增派单{% endblock %}
+{% block main_block %}
+<section id="sec_addorder" {% if form.errors %}style="display: none;"{% endif %}>
+<div class="hd">
+<h1 class="form_title">新增派单</h1>
+</div>
+<div class="bd">
+    <form action="{% url 'wxorder:add_orderinfo' %}" method="post" id="add_orderinfo">
+    <div class="weui_cells weui_cells_form">
+        {% csrf_token %}
+        <div class="weui_cell weui_cell_select weui_select_after">
+            <div class="weui_cell_hd">
+                <label class="weui_label">业务类型</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <select class="weui_select" id="id_order_type" name="order_type" required>
+                    {% for t in types %}
+                    <option value="{{ t.id }}" {% if forloop.first and form.order_type.value == None %}selected{% elif form.order_type.value == t.id %}selected{% endif %}>{{ t.value }}</option>
+                    {% empty %}
+                    <option value="0">暂无类型可选</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">客户姓名</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id="id_c_name" name="c_name" size="50"  value="{{ form.c_name.value }}" class="weui_input" type="text"  placeholder="请输入客户姓名" required/>
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">手机号码</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id="id_c_mobile" name="c_mobile" size="50" value="{{ form.c_mobile.value }}" class="weui_input" type="tel" placeholder="请输入客户手机号码" required/>
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">服务时间</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id="id_c_time" name="c_time" size="50" value="{{ form.c_time.value }}" class="weui_input" type="datetime-local"  placeholder="请选择服务时间" required/>
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">客户地址</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id="id_c_address" name="c_address" size="50" value="{{ form.c_address.value }}" class="weui_input" type="text" placeholder="请输入客户地址" required/>
+            </div>
+        </div>
+        <div class="weui_cell weui_cell_select weui_select_after">
+            <div class="weui_cell_hd">
+                <label class="weui_label">技术员</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <select class="weui_select" id="id_tech_user" name="tech_user" required>
+                    <option value="0" {% if form.tech_user.value == None or form.tech_user.value == 0 %}selected{% endif %}>稍后选择</option>
+                    {% for u in tus %}
+                    <option value="{{ u.id }}" {% ifequal form.tech_user.value u.id %}selected{% endifequal %}>{{ u.u_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="weui_cells_title" style="color: black">备注</div>
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <textarea class="weui_textarea" placeholder="请输入备注" rows="3" name="remark">{{ form.remark.value }}</textarea>
+                <div class="weui_textarea_counter">200(以内)</div>
+            </div>
+        </div>
+    </div>
+    <div class="weui_cells_tips">帝光客户专用版</div>
+    <div class="weui_btn_area">
+        <button type="submit" class="weui_btn weui_btn_primary" id="sub_action">保存</button>
+        <a href="{% url 'wxorder:list_orderinfo' %}" class="weui_btn weui_btn_default">取消</a>
+    </div>
+    </form>
+</div>
+</section>
+{% if form.errors %}
+<div class="msg" id="msg">
+<div class="weui_msg">
+    <div class="weui_icon_area">
+        <i class="weui_icon_warn weui_icon_msg"></i>
+    </div>
+    <div class="weui_text_area">
+        <h2 class="weui_msg_title">操作失败</h2>
+        <p class="weui_msg_desc">{{ form.errors }}</p>
+    </div>
+    <div class="weui_opr_area">
+        <p class="weui_btn_area">
+            <a href="javascript:" class="weui_btn weui_btn_primary" id="ok">确定</a>
+        </p>
+    </div>
+</div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'wxorder/base.html' %}
+{% block title %}查看订单{% endblock %}
+{% block main_block %}
+<div class="bd" style="height: 100%;">
+    <section class="weui_tab" id="list_orderinfo">
+        <div class="weui_navbar">
+            <div class="weui_navbar_item weui_bar_item_on">
+                未指派
+            </div>
+            <div class="weui_navbar_item">
+                待评价
+            </div>
+            <div class="weui_navbar_item">
+                已完成
+            </div>
+        </div>
+        <div class="weui_tab_bd" id="list_cont">
+            <style>
+                .section {display: none;}
+                .on {display: block;}
+                .btn {background-color: #04BE02; padding: 5px 5px 2px 5px; color: white;}
+            </style>
+
+            <section class="section on">
+                {% for o in z %}
+                <div class="weui_panel_bd">
+                    <div class="weui_media_box weui_media_text">
+                        <h4 class="weui_media_title">订单编号:<a href="{% url 'wxorder:view_orderinfo' o.id %}"> {{ o.order_id }}</a></h4>
+                        <p class="weui_media_desc">客户姓名:{{ o.c_name }} 手机:<a href="tel:{{ o.c_mobile }}">{{ o.c_mobile }}</a><br/>
+                        地址:{{ o.c_address }}<br/>
+                        备注:{{ o.remark }}</p>
+                        <ul class="weui_media_info">
+                            <li class="weui_media_info_meta">{{ o.order_type.value }}</li>
+                            <li class="weui_media_info_meta">服务时间:{{ o.c_time }}</li>
+                            <li class="weui_media_info_meta weui_media_info_meta_extra"><a href="{% url 'wxorder:edit_orderinfo' o.id %}">编辑</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="weui_panel_bd">
+                    <div class="weui_media_box weui_media_text">
+                        <h4 class="weui_media_title">暂无该类订单</h4>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+            <section class="section">
+                {% for o in f %}
+                <div class="weui_panel_bd">
+                    <div class="weui_media_box weui_media_appmsg">
+                        <div class="weui_media_hd">
+                            <img class="weui_media_appmsg_thumb" src="{{ o.qcode }}">
+                        </div>
+                        <div class="weui_media_bd">
+                            <h4 class="weui_media_title">订单编号:<a href="{% url 'wxorder:view_orderinfo' o.id %}"> {{ o.order_id }}</a></h4>
+                            <p class="weui_media_desc">客户姓名:{{ o.c_name }} 手机:<a href="tel:{{ o.c_mobile }}">{{ o.c_mobile }}</a><br/>
+                        技术员:{{ o.tech_user.u_name }}</p>
+                        </div>
+                    </div>
+                    <div class="weui_media_box weui_media_text">
+                        <ul class="weui_media_info" style="margin-top: 2px;">
+                            <li class="weui_media_info_meta">{{ o.order_type.value }}</li>
+                            <li class="weui_media_info_meta">服务时间:{{ o.c_time }}</li>
+                            <li class="weui_media_info_meta weui_media_info_meta_extra"><a href="{% url 'wxorder:view_orderinfo' o.id %}" class="">查看</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+
+            <section class="section">
+                {% for o in s %}
+                <div class="weui_panel_bd">
+                    <div class="weui_media_box weui_media_text">
+                        <h4 class="weui_media_title">订单编号:<a href="{% url 'wxorder:view_orderinfo' o.id %}"> {{ o.order_id }}</a></h4>
+                        <p class="weui_media_desc">
+                            客户姓名:{{ o.c_name }} 手机:<a href="tel:{{ o.c_mobile }}">{{ o.c_mobile }}</a><br/>
+                            服务时间:{{ o.c_time }} 技术员{{ o.tech_user.u_name }}
+                        </p>
+                        <ul class="weui_media_info">
+                            <li class="weui_media_info_meta">{{ o.order_type.value }}</li>
+                            <li class="weui_media_info_meta">评价于{{ o.ce_time }}</li>
+                            <li class="weui_media_info_meta weui_media_info_meta_extra">
+                                {% if o.ce_num == 0 %}
+                                满意
+                                {% elif o.ce_num == 1 %}
+                                一般
+                                {% elif o.ce_num == 2 %}
+                                不满意
+                                {% endif %}
+                            </li>
+                        </ul>
+                        {% if o.ce_num == 2 %}
+                        <p class="weui_media_desc">客户备注:{{ o.ce_remark }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="weui_panel_bd">
+                    <div class="weui_media_box weui_media_text">
+                        <h4 class="weui_media_title">暂无该类订单</h4>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+        </div>
+</section>
+</div>
+{% endblock %}

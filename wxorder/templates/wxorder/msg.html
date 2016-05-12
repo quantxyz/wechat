@@ -1,0 +1,20 @@
+{% extends 'wxorder/base.html' %}
+{% block title %}消息提醒{% endblock %}
+{% block main_block %}
+<div class="msg">
+<div class="weui_msg">
+    <div class="weui_icon_area">
+        <i class="{% if msg.type == 'success' %}weui_icon_success{% elif msg.type == 'warn' %}weui_icon_warn{% endif %} weui_icon_msg"></i>
+    </div>
+    <div class="weui_text_area">
+        <h2 class="weui_msg_title">{{ msg.title }}</h2>
+        <p class="weui_msg_desc">{{ msg.content }}</p>
+    </div>
+    <div class="weui_opr_area">
+        <p class="weui_btn_area">
+            <a href="{{ msg.next_url }}" class="weui_btn weui_btn_primary">{{ msg.btn_text }}</a>
+        </p>
+    </div>
+</div>
+</div>
+{% endblock %}

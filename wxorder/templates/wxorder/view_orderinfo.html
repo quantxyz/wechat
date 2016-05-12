@@ -1,0 +1,101 @@
+{% extends 'wxorder/base.html' %}
+{% block title %}查看派单{% endblock %}
+{% block main_block %}
+<section id="sec_addorder" {% if form.errors %}style="display: none;"{% endif %}>
+<div class="hd">
+<h1 class="form_title">查看派单</h1>
+{% if o.state == 1 %}
+<div class="weui_icon_area" style="text-align: center;"><img src="{{ o.qcode }}" width="120" /></div>
+{% endif %}
+<h1 class="form_title">订单编号:{{ o.order_id }}</h1>
+</div>
+<div class="bd">
+    <div class="weui_cells weui_cells_form">
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label">业务类型</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {{ o.order_type.value }}
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">客户姓名</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {{ o.c_name }}
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">手机号码</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <a href="tel:{{ o.c_mobile }}">{{ o.c_mobile }}</a>
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">服务时间</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {{ o.c_time }}
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">客户地址</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {{ o.c_address }}
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label">技术员</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {% if o.tech_user %}{{ o.tech_user.u_name }}{% else %}未指派{% endif %}
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label">备注</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {{ o.remark }}
+            </div>
+        </div>
+        {% if o.state == 2 %}
+        <!--
+        ce_num, ce_remark, ce_openid, ce_time
+        -->
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">客户评价</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {% if o.ce_num == 0 %}满意{% elif o.ce_num == 1 %}一般{% elif o.ce_num == 2 %}不满意{% endif %}
+            </div>
+        </div>
+            {% if o.ce_num == 2 %}
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">评价备注</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>{{ o.ce_remark }}</p>
+                </div>
+            </div>
+            {% endif %}
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">评价时间</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {{ o.ce_time }}
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">客户openid</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {{ o.ce_openid }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="weui_cells_tips">帝光客户专用版</div>
+    <div class="weui_btn_area">
+        <a href="javascript:history.go(-1);" class="weui_btn weui_btn_default">返回</a>
+    </div>
+</div>
+</section>
+
+{% endblock %}

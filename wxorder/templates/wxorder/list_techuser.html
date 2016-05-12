@@ -1,0 +1,134 @@
+{% extends 'wxorder/base.html' %}
+{% block title %}设置中心{% endblock %}
+{% block main_block %}
+<div class="bd">
+    <div class="weui_cells">
+        <a class="weui_cell" href="javascript:;" id="sync_techuser">
+            <div class="weui_cell_hd"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAMAAABgZ9sFAAAAVFBMVEXx8fHMzMzr6+vn5+fv7+/t7e3d3d2+vr7W1tbHx8eysrKdnZ3p6enk5OTR0dG7u7u3t7ejo6PY2Njh4eHf39/T09PExMSvr6+goKCqqqqnp6e4uLgcLY/OAAAAnklEQVRIx+3RSRLDIAxE0QYhAbGZPNu5/z0zrXHiqiz5W72FqhqtVuuXAl3iOV7iPV/iSsAqZa9BS7YOmMXnNNX4TWGxRMn3R6SxRNgy0bzXOW8EBO8SAClsPdB3psqlvG+Lw7ONXg/pTld52BjgSSkA3PV2OOemjIDcZQWgVvONw60q7sIpR38EnHPSMDQ4MjDjLPozhAkGrVbr/z0ANjAF4AcbXmYAAAAASUVORK5CYII=" alt="" style="width:20px;margin-right:5px;display:block"></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <h5 class="form_title">技术员管理</h5>
+            </div>
+            <div class="weui_cell_ft">
+                <i class="weui_icon_circle"></i>
+            </div>
+        </a>
+    </div>
+    <div class="weui_cells weui_cells_access" id="list_techuser">
+        {% for t in ters %}
+        <a class="weui_cell" href="javascript:;" id="showActionSheet"
+           data-id="{{ t.id }}" data-m="{{ t.u_mobile }}" data-name="{{ t.u_name }}">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>{{ t.u_name }}</p>
+            </div>
+            <div class="weui_cell_ft">
+            </div>
+        </a>
+        {% empty %}
+        <a class="weui_cell" href="javascript:;">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>暂无记录</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+</div>
+<!--BEGIN toast-->
+<div id="toast_success" style="display: none;">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <i class="weui_icon_toast"></i>
+        <p class="weui_toast_content">同步成功</p>
+    </div>
+</div>
+<div id="toast_fail" style="display: none;">
+    <div class="weui_mask_transparent"></div>
+    <style>
+        .weui_icon_msg:before {
+            font-size: 55px;
+            margin-top:15px;
+        }
+    </style>
+    <div class="weui_toast">
+        <i class="weui_icon_msg weui_icon_warn"></i>
+        <p class="weui_toast_content">同步失败，请稍后重试</p>
+    </div>
+</div>
+<div id="loadingToast" class="weui_loading_toast" style="display: none;">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <div class="weui_loading">
+            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+        </div>
+        <p class="weui_toast_content">数据同步中</p>
+    </div>
+</div>
+<!--end toast-->
+<div id="actionSheet_wrap">
+    <div class="weui_mask_transition" id="mask" ></div>
+    <div class="weui_actionsheet" id="weui_actionsheet">
+        <div class="weui_actionsheet_menu">
+            <div class="weui_actionsheet_cell" id="view_techuser">查看he or she</div>
+            <div class="weui_actionsheet_cell" id="edit_techuser">编辑he or she</div>
+            <div class="weui_actionsheet_cell" id="del">删除he or she(*)</div>
+            <div class="weui_actionsheet_cell" id="view_userorder">查看his or her派单</div>
+        </div>
+        <div class="weui_actionsheet_action">
+            <div class="weui_actionsheet_cell" id="actionsheet_cancel">取消</div>
+        </div>
+    </div>
+</div>
+<div class="weui_dialog_alert" id="v_dialog" style="display: none">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+        <div class="weui_dialog_hd"><strong class="weui_dialog_title" id="v_name"></strong></div>
+        <div class="weui_dialog_bd">手机:<span id="v_mobile"></span></div>
+        <div class="weui_dialog_ft">
+            <a href="javascript:;" class="weui_btn_dialog primary" id="ok">确定</a>
+        </div>
+    </div>
+</div>
+<div class="weui_dialog_confirm" id="e_dialog" style="display: none;">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+        <div class="weui_dialog_hd">
+            <strong class="weui_dialog_title">信息更新</strong>
+        </div>
+        <div class="weui_dialog_bd">
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="text" id="e_name" placeholder="请输入姓名" required>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">手机号</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="text" id="e_mobile" placeholder="请输入手机号码" required>
+                    </div>
+                    <input type="hidden" id="copy_ename">
+                    <input type="hidden" id="copy_emobile">
+                    <input type="hidden" id="tu_id">
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" style="display:none;color:red;" id="e_error"></div>
+        <div class="weui_dialog_ft">
+            <a href="javascript:;" class="weui_btn_dialog default" id="cancel">取消</a>
+            <a href="javascript:;" class="weui_btn_dialog primary" id="ce_techuser">确定</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

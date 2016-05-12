@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
+    <title>Hello Wechat</title>
+</head>
+<body>
+<p>url:{{ url }}</p>
+<button id="btn">点击位置</button>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+{% if sign_package %}
+    <script>
+        wx.config({
+            debug: false,
+            appId: '{{ appId }}',
+            timestamp: {{ sign_package.timestamp }},
+            nonceStr: '{{ sign_package.nonceStr }}',
+            signature: '{{ sign_package.signature }}',
+            jsApiList: [
+                "openLocation",
+                "getLocation",
+                "chooseImage",
+                "previewImage",
+                "uploadImage"
+            ]
+        });
+        wx.ready(function () {
+            // 在这里调用 API
+            document.getElementById("btn").onclick = function() {
+                wx.openLocation({
+                    latitude: 26.5613581498, // 纬度，浮点数，范围为90 ~ -90
+                    longitude: 106.7065610509, // 经度，浮点数，范围为180 ~ -180。
+                    name: '创恒网络', // 位置名
+                    address: '贵阳市南明区万象国际C座', // 地址详情说明
+                    scale: 20, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                    infoUrl: 'https://cn.bing.com/ditu/?FORM=Z9LH4#JnE9LiUyNXU4ZDM1JTI1dTk2MzMlMjV1NWUwMiUyNXU1MzU3JTI1dTY2MGUlMjV1NTMzYSUyNXU0ZTA3JTI1dThjNjElMjV1NTZmZCUyNXU5NjQ1QyUyNXU1ZWE3JTdlc3N0LjAlN2VwZy4xJmJiPTMwLjM2ODgxMzY3NDYwOTglN2UxMjAuMzEzMDQ5NDE5MTg5JTdlMzAuMjA2MDU2NTAzNTg4JTdlMTE5Ljk5NDEwMjU4MDgxMQ==' // 在查看位置界面底部显示的超链接,可点击跳转
+                });
+            }
+        });
+    </script>
+{% endif %}
+</body>
+</html>

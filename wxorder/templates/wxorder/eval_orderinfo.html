@@ -1,0 +1,63 @@
+{% extends 'wxorder/base.html' %}
+{% block title %}评价派单{% endblock %}
+{% block main_block %}
+<div class="hd">
+<h1 class="form_title">评价派单</h1>
+{% if o.state == 1 %}
+<div class="weui_icon_area" style="text-align: center;"><img src="{{ o.qcode }}" width="120" /></div>
+{% endif %}
+<h2 class="form_title">订单编号:{{ o.order_id }}</h2>
+<h2 class="form_title">为您服务的是 {{ o.tech_user.u_name }}</h2>
+<h2 class="form_title">请您对他的服务评价</h2>
+</div>
+<div class="bd">
+    <form action="{% url 'wxorder:eval_orderinfo' o.id%}" method="post" id="eval_orderinfo">
+    <div class="weui_cells weui_cells_form">
+        {% csrf_token %}
+        <div class="weui_cells_title">满意度</div>
+        <div class="weui_cells weui_cells_radio">
+            <label class="weui_cell weui_check_label">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>满意</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <input type="radio" class="weui_check" name="ce_num" value="0" checked="checked">
+                    <span class="weui_icon_checked"></span>
+                </div>
+            </label>
+            <label class="weui_cell weui_check_label">
+
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>一般</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <input type="radio" name="ce_num" class="weui_check" value="1">
+                    <span class="weui_icon_checked"></span>
+                </div>
+            </label>
+            <label class="weui_cell weui_check_label">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>不满意</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <input type="radio" name="ce_num" class="weui_check" value="2" id="need_remark">
+                    <span class="weui_icon_checked"></span>
+                </div>
+            </label>
+        </div>
+        <div class="weui_cells_title">备注</div>
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <textarea class="weui_textarea" placeholder="请输入备注" rows="3" id="id_ce_remark" name="ce_remark"></textarea>
+                <div class="weui_textarea_counter">200(以内)</div>
+            </div>
+        </div>
+    </div>
+    <div class="weui_cells_tips">帝光客户专用版</div>
+    <div class="weui_btn_area">
+        <input type="hidden" name="ce_openid" id="id_ce_openid" value="{{ openid }}" required>
+        <button type="submit" class="weui_btn weui_btn_primary" id="eval_action">评价</button>
+    </div>
+    </form>
+</div>
+{% endblock %}
