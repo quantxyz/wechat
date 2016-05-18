@@ -121,7 +121,7 @@ class Jssdk:
         # send_data = {
         #     "touser":'oV9A7sx6y838j3rSFfgECitC-zbE',
         #     "template_id":"JSyp6FLF1j1cqJLZRRV5n_ccDqlMYoTu_gfIx3RonOE",
-        #     "url":'http://wx.3wyes.com',
+        #     "url":'http://wx.domain.com',
         #     "data":{
         #            "first": {
         #                "value":"请您对我们工作人员的服务评价！",
@@ -136,7 +136,7 @@ class Jssdk:
         #                "color":"#173177"
         #            },
         #            "keyword3": {
-        #                "value":'刘凯',
+        #                "value":'刘XXX',
         #                "color":"#173177"
         #            },
         #            "keyword4": {
